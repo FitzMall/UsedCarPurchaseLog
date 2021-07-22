@@ -1,0 +1,237 @@
+﻿@using UsedCarPurchase.Helpers
+@model UsedCarPurchase.Models.EditVM
+
+@{
+    ViewBag.Title = "Used Cars Purchase Log | Edit P";
+}
+
+<div class="jumbotron">
+    <h2>Edit Vehicle Purchase Request</h2>
+</div>
+
+@using (Html.BeginForm("Edit", "PurchaseLog"))
+{
+    @Html.HiddenFor(m => m.ID)
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Ucp_PurchasedDate, "Purchase Date", new { @class = "col-sm-2" })
+                    @Html.TextBoxFor(m => m.Ucp_PurchasedDate, new { @class = "form-control col-sm-2" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_BoughtUnderCom, "Bought Under Company", new { @class = "col-md-2" })
+                @Html.DropDownListFor(m => m.Ucp_BoughtUnderCom, new SelectList(Model.StoreList, Model.Ucp_BoughtUnderCom), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_PurchasedBy, "Purchased By", new { @class = "col-sm-2" })
+                @Html.DropDownListFor(m => m.Ucp_PurchasedBy, new SelectList(Model.Purchasers, Model.Ucp_PurchasedBy), new { @class = "form-control"})
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_StoreAssigned, "Store Assigned", new { @class = "col-md-2" })
+                @Html.DropDownListFor(m => m.Ucp_StoreAssigned, new SelectList(Model.StoreList, Model.Ucp_StoreAssigned), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_PurchasedFrom, "Purchased From", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Ucp_PurchasedFrom, new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_PurchasedPrice, "Purchase Price", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Ucp_PurchasedPrice, "{0:c}", new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vin, "Source", new { @class = "col-sm-2" })
+                @Html.DropDownListFor(m => m.Vin, new SelectList(Enums.Source, Model.Source), new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vin, "Transporter Name", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_TransFee, "Transportation Fee", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Ucp_TransFee, "{0:c}", new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vin, "Vin", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @*@Html.LabelFor(m => m.Vin, "Previous Rental", new { @class = "col-sm-2" })
+                @Html.CheckBoxFor(m => m.PreviousRental, new { @class = "form-control col-sm-2" })*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Stk, "Stock #", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Stk, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_PreStk, "Old Stock#", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Ucp_PreStk, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Yr, "Year", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Yr, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_JJFMSmarkup, "JJFMS Markup", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Ucp_JJFMSmarkup, "{0:c}", new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Make, "Make", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Make, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vin, "Vehicle Location", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Model, "Model", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Model, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.TitleSentTo, "Title Sent To", new { @class = "col-sm-2" })
+                @Html.DropDownListFor(m => m.TitleSentTo, new SelectList(Model.StoreList, Model.TitleSentTo), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Color, "Color", new { @class = "col-sm-2" })
+                @Html.TextBoxFor(m => m.Color, new { @class = "form-control col-sm-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vin, "Bank Name", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Mileage, "Mileage", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Mileage, new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ucp_PurchasedPrice, "Payoff Amount", new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.Ucp_PurchasedPrice, "{0:c}", new { @class = "form-control col-md-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.Ucp_Comment, "Comments")
+            @Html.TextAreaFor(m => m.Ucp_Comment, 5, 100, new { @class = "form-control", @style = "width: 100%; max-width: 100%" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-control">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
+}

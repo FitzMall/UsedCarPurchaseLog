@@ -1,0 +1,355 @@
+﻿@using UsedCarPurchase.Helpers
+@model UsedCarPurchase.Models.TransferVM
+
+@{
+    ViewBag.Title = "Used Cars Purchase Log | Transfer P";
+}
+<style>
+    .cbox {
+        height: 34px;
+        width: 34px;
+    }
+</style>
+
+
+@using (Html.BeginForm("Transfer", "PurchaseLog"))
+{
+    @Html.HiddenFor(m => m.ID)
+    <div class="body-content">
+        <div class="jumbotron">
+            <h2>Add Transfer Request</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        VIN Lookup (Last 6)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" id="vinInput" name="vin" class="form-control" />
+                    @if (!String.IsNullOrEmpty(@ViewBag.Message.ToString()))
+                    {
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="text-danger">@ViewBag.Message</label>
+                            </div>
+                        </div>
+                    }
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary" id="submitVin" value="Search" name="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    if (Model != null)
+    {
+        if (Model.MatchingVehicles != null && Model.MatchingVehicles.Count > 1)
+        {
+            <div class="body-content">
+                <table id="usedCarsList" class="display order-column cell-border " cellpadding="2" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Edit</th>
+                            <th>Stock#</th>
+                            <th>PreStk#</th>
+                            <th>Year</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Vin</th>
+                            <th>Color</th>
+                            <th>Mileage</th>
+                            <th>Purchased Date</th>
+                            <th>Purchased By</th>
+                            <th>Bought Under Com.</th>
+                            <th>Purchased From</th>
+                            <th>Purchased Price</th>
+                            <th>Store Assigned</th>
+                            <th>Status</th>
+                            <th>Comment</th>
+                            <th>Last Update</th>
+                            <th>Users</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ucar in @Model.MatchingVehicles)
+                        {
+                            <tr>
+                                <td>@Html.ActionLink("Select", "Transfer", "PurchaseLog", new { id = ucar.ID }, null)</td>
+                                <td>@ucar.Stk</td>
+                                <td>@ucar.Ucp_PreStk</td>
+                                <td>@ucar.Yr</td>
+                                <td>@ucar.Make</td>
+                                <td>@ucar.Model</td>
+                                <td>@ucar.Vin</td>
+                                <td>@ucar.Color</td>
+                                <td>@ucar.Mileage</td>
+                                <td>@ucar.Ucp_PurchasedDate</td>
+                                <td>@ucar.Ucp_PurchasedBy</td>
+                                <td>@ucar.Ucp_BoughtUnderCom</td>
+                                <td>@ucar.Ucp_PurchasedFrom</td>
+                                <td>@ucar.Ucp_PurchasedPrice</td>
+                                <td>@ucar.Ucp_StoreAssigned</td>
+                                <td>@ucar.Ucp_DemoStock</td>
+                                <td>@ucar.Ucp_Comment</td>
+                                <td>@ucar.Ucp_Update</td>
+                                <td>@ucar.Ucp_Users</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>        
+        }
+        else 
+        {
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_PurchasedDate, "Purchase Date", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Ucp_PurchasedDate, "{0:d}", new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_BoughtUnderCom, "Bought Under Company", new { @class = "col-md-2" })
+                            @Html.DropDownListFor(m => m.Ucp_BoughtUnderCom, new SelectList(Model.StoreList, Model.Ucp_BoughtUnderCom), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Purchased By</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_StoreAssigned, "Store Assigned", new { @class = "col-md-2" })
+                            @Html.DropDownListFor(m => m.Ucp_StoreAssigned, new SelectList(Model.StoreList, Model.Ucp_StoreAssigned), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Purchased From</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_PurchasedPrice, "Purchase Price (Ck Amt) *includes all auction/PSI fees*", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Ucp_PurchasedPrice, "{0:c}", new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Source</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Vin, "Transporter Name", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_TransFee, "Transportation Fee", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Ucp_TransFee, "{0:c}", new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Vin, "Vin", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Previous Rental</label>
+                            <input type="checkbox" class="cbox " disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Stk, "Stock #", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Stk, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Ucp_PreStk, "Old Stock#", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Ucp_PreStk, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Yr, "Year", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Yr, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">JJFMS Markup</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Make, "Make", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Make, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Vin, "Vehicle Location", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Vin, new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Model, "Model", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Model, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TitleSentTo, "Title Sent To", new { @class = "col-sm-2" })
+                            @Html.DropDownListFor(m => m.TitleSentTo, new SelectList(Model.StoreList, Model.TitleSentTo), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Color, "Color", new { @class = "col-sm-2" })
+                            @Html.TextBoxFor(m => m.Color, new { @class = "form-control col-sm-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Bank Name</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Mileage, "Mileage", new { @class = "col-md-2" })
+                            @Html.TextBoxFor(m => m.Mileage, new { @class = "form-control col-md-2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">Payoff Amount</label>
+                            <input type="text" class="col-md-2 form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Ucp_Comment, "Comments")
+                        @Html.TextAreaFor(m => m.Ucp_Comment, 5, 100, new { @class = "form-control", @style = "width: 100%; max-width: 100%" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-control">
+                    <button type="submit" value="Save" id="Save" name="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        $.fn.dataTable.moment('M/D/YYYY H:mm:ss A');
+
+        $('#usedCarsList').DataTable({
+            deferRender: true,
+            //scrollY: '50vh',
+            //scrollCollapse: true,
+            columnDefs: [
+                {
+                    targets: -1,
+                    className: 'dt-head-center'
+                }
+            ],
+            scroller: true,
+            ordering: true,
+            searching: false,
+            paging: false
+        });
+    });
+
+</script>

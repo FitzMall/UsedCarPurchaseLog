@@ -1,0 +1,107 @@
+﻿@model List<UsedCarPurchase.BizObjects.PurchaseLogItem>
+@{
+    ViewBag.Title = "Home Page P";
+}
+
+@using (Html.BeginForm("Index", "PurchaseLog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="jumbotron">
+        <h1>Used Car Purchase Log</h1>
+        <p></p>
+        <div class="row">
+            <div class="col-md-4">
+                <b>Search Existing</b>
+            </div>
+            <div class="col-md-4">@Html.ActionLink("Transfer Vehicle Request", "Transfer", "PurchaseLog")</div>
+            <div class="col-md-4">@Html.ActionLink("Purchase Vehicle Request", "Purchase", "PurchaseLog")</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" name="searchString" id="searchString" class="form-control" value="" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+    @if (Model != null)
+    {
+    <div class="body-content">
+        <table id="usedCarsList" class="display order-column cell-border " cellpadding="2" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>Stock#</th>
+                    <th>PreStk#</th>
+                    <th>Year</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Vin</th>
+                    <th>Color</th>
+                    <th>Mileage</th>
+                    <th>Purchased Date</th>
+                    <th>Purchased By</th>
+                    <th>Bought Under Com.</th>
+                    <th>Purchased From</th>
+                    <th>Purchased Price</th>
+                    <th>Store Assigned</th>
+                    <th>Status</th>
+                    <th>Comment</th>
+                    <th>Last Update</th>
+                    <th>Users</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ucar in @Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink("Edit", "Edit", "PurchaseLog", new { id = ucar.ID }, null)</td>
+                        <td>@ucar.Stk</td>
+                        <td>@ucar.Ucp_PreStk</td>
+                        <td>@ucar.Yr</td>
+                        <td>@ucar.Make</td>
+                        <td>@ucar.Model</td>
+                        <td>@ucar.Vin</td>
+                        <td>@ucar.Color</td>
+                        <td>@ucar.Mileage</td>
+                        <td>@ucar.Ucp_PurchasedDate</td>
+                        <td>@ucar.Ucp_PurchasedBy</td>
+                        <td>@ucar.Ucp_BoughtUnderCom</td>
+                        <td>@ucar.Ucp_PurchasedFrom</td>
+                        <td>@ucar.Ucp_PurchasedPrice</td>
+                        <td>@ucar.Ucp_StoreAssigned</td>
+                        <td>@ucar.Ucp_DemoStock</td>
+                        <td>@ucar.Ucp_Comment</td>
+                        <td>@ucar.Ucp_Update</td>
+                        <td>@ucar.Ucp_Users</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $.fn.dataTable.moment('M/D/YYYY H:mm:ss A');
+
+        $('#usedCarsList').DataTable({
+            deferRender: true,
+            //scrollY: '50vh',
+            //scrollCollapse: true,   
+            columnDefs: [
+                {
+                    targets: -1,
+                    className: 'dt-head-center'
+                }
+            ],
+            scroller: true,
+            ordering: true,
+            searching: false,
+            paging: false
+        });
+    });
+
+</script>
+
